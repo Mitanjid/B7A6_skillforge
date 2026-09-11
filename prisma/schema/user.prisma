@@ -1,0 +1,58 @@
+model User {
+  id       String  @id @default(cuid())
+  email    String  @unique
+  password String?
+  googleId String? @unique
+  authProvider AuthProvider @default(CREDENTIAL)
+  role     Role
+  isActive Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  candidateProfile CandidateProfile?
+  companyProfile   CompanyProfile?
+
+  problems            Problem[]    @relation("CompanyProblems")
+  assessments         Assessment[] @relation("CompanyAssessments")
+  invitationsReceived Invitation[] @relation("CandidateInvitations")
+  attempts            Attempt[]    @relation("CandidateAttempts")
+  evaluations         Submission[] @relation("EvaluatedBy")
+  payments            Payment[]    @relation("CompanyPayments")
+  auditLogs           AuditLog[]   @relation("UserAuditLogs")
+
+  @@index([role])
+  @@map("users")
+}
+
+model CandidateProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  fullName  String
+  phone     String?
+  skills    String[]
+  resumeUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("candidate_profiles")
+}
+
+model CompanyProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  companyName String
+  website     String?
+  industry    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("company_profiles")
+}

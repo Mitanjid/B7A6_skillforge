@@ -1,0 +1,20 @@
+model Payment {
+  id        String @id @default(cuid())
+  companyId String
+  company   User   @relation("CompanyPayments", fields: [companyId], references: [id])
+
+  assessmentId String     @unique
+  assessment   Assessment @relation(fields: [assessmentId], references: [id])
+
+  amount          Decimal       @db.Decimal(10, 2)
+  currency        String        @default("BDT")
+  status          PaymentStatus @default(PENDING)
+  transactionId   String        @unique
+  gatewayResponse Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([companyId, status])
+  @@map("payments")
+}

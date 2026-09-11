@@ -1,0 +1,44 @@
+model Attempt {
+  id           String @id @default(cuid())
+  invitationId String @unique
+  invitation   Invitation @relation(fields: [invitationId], references: [id])
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id])
+  candidateId  String
+  candidate    User   @relation("CandidateAttempts", fields: [candidateId], references: [id])
+
+  status      AttemptStatus @default(IN_PROGRESS)
+  startedAt   DateTime      @default(now())
+  submittedAt DateTime?
+  totalScore  Float?
+
+  createdAt DateTime @default(now())
+
+  submissions Submission[]
+
+  @@index([candidateId])
+  @@index([assessmentId, status])
+  @@map("attempts")
+}
+
+model Submission {
+  id        String @id @default(cuid())
+  attemptId String
+  attempt   Attempt @relation(fields: [attemptId], references: [id])
+  problemId String
+  problem   Problem @relation(fields: [problemId], references: [id])
+
+  answerText     String?
+  selectedOption String?
+  isCorrect      Boolean?
+  score          Float?
+
+  evaluatedById String?
+  evaluatedBy   User?     @relation("EvaluatedBy", fields: [evaluatedById], references: [id])
+  evaluatedAt   DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@unique([attemptId, problemId])
+  @@map("submissions")
+}

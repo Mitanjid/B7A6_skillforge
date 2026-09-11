@@ -1,0 +1,19 @@
+model Invitation {
+  id           String @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id])
+  candidateId  String
+  candidate    User   @relation("CandidateInvitations", fields: [candidateId], references: [id])
+
+  token     String           @unique
+  status    InvitationStatus @default(PENDING)
+  expiresAt DateTime
+
+  createdAt DateTime @default(now())
+
+  attempt Attempt?
+
+  @@unique([assessmentId, candidateId])
+  @@index([candidateId, status])
+  @@map("invitations")
+}
