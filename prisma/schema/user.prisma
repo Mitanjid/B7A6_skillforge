@@ -3,7 +3,8 @@ model User {
   email    String  @unique
   password String?
   googleId String? @unique
-  authProvider AuthProvider @default(CREDENTIAL)
+  authProvider  AuthProvider @default(CREDENTIAL)
+  emailVerified Boolean      @default(false)
   role     Role
   isActive Boolean @default(true)
 
