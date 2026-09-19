@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Verify your SkillForge account</title>
+</head>
+<body style="font-family: Arial, sans-serif; background:#f4f4f7; padding: 24px;">
+  <div style="max-width: 480px; margin: 0 auto; background:#ffffff; border-radius: 8px; padding: 32px;">
+    <h2 style="color:#111827;">Verify your email</h2>
+    <p>Hi <%= name %>,</p>
+    <p>Use the code below to verify <strong><%= email %></strong> and activate your SkillForge account:</p>
+    <div style="text-align:center; margin: 24px 0;">
+      <span style="display:inline-block; font-size: 32px; letter-spacing: 8px; font-weight: bold; color:#111827; background:#f3f4f6; padding: 12px 24px; border-radius: 6px;">
+        <%= otp %>
+      </span>
+    </div>
+    <p>This code expires in <strong><%= expirationMinutes %> minutes</strong>.</p>
+    <p style="color:#6b7280; font-size: 13px;">If you didn't request this, you can safely ignore this email.</p>
+  </div>
+</body>
+</html>
