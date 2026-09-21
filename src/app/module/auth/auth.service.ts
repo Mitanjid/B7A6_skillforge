@@ -124,29 +124,32 @@ const verifyEmail = async (payload: IVerifyEmailPayload) => {
     role: "CANDIDATE" | "COMPANY";
   };
 
-  const user = await prisma.$transaction(async (tx) => {
-    const newUser = await tx.user.create({
-      data: {
-        email: pending.email,
-        password: pending.password,
-        role: pending.role,
-        authProvider: AuthProvider.CREDENTIAL,
-        emailVerified: true,
-      },
-    });
-
-    if (pending.role === Role.CANDIDATE) {
-      await tx.candidateProfile.create({
-        data: { userId: newUser.id, fullName: pending.name },
+  const user = await prisma.$transaction(
+    async (tx) => {
+      const newUser = await tx.user.create({
+        data: {
+          email: pending.email,
+          password: pending.password,
+          role: pending.role,
+          authProvider: AuthProvider.CREDENTIAL,
+          emailVerified: true,
+        },
       });
-    } else {
-      await tx.companyProfile.create({
-        data: { userId: newUser.id, companyName: pending.name },
-      });
-    }
 
-    return newUser;
-  });
+      if (pending.role === Role.CANDIDATE) {
+        await tx.candidateProfile.create({
+          data: { userId: newUser.id, fullName: pending.name },
+        });
+      } else {
+        await tx.companyProfile.create({
+          data: { userId: newUser.id, companyName: pending.name },
+        });
+      }
+
+      return newUser;
+    },
+    { maxWait: 10000, timeout: 15000 },
+  );
 
   await redisClient.del(`register-otp:${email}`);
   await redisClient.del(`register-data:${email}`);
