@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.7/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,47 +7,35 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "includes": [
-      "**",
-      "!**/dist/**",
-      "!**/node_modules/**",
-      "!**/prisma/migrations/**",
-      "!**/*.env*"
-    ]
+    "includes": ["**", "!src/genrated", "!src/app/templates"]
   },
   "formatter": {
     "enabled": true,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineWidth": 100
+    "indentStyle": "tab"
   },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "suspicious": {
-        "noExplicitAny": "warn",
-        "noConsole": "off"
-      },
-      "correctness": {
-        "noUnusedVariables": "error",
-        "noUnusedImports": "error"
-      },
-      "style": {
-        "useImportType": "error",
-        "noNonNullAssertion": "off"
+        "noExplicitAny": "warn"
       },
       "complexity": {
-        "noForEach": "off"
+        "noCommaOperator": "info"
+      },
+      "correctness": {
+        "noUnusedFunctionParameters": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "info",
+        "useNodejsImportProtocol": "info"
       }
-    }
+    },
+    "includes": ["**", "!src/genrated", "!src/app/templates"]
   },
   "javascript": {
     "formatter": {
-      "quoteStyle": "single",
-      "semicolons": "always",
-      "trailingCommas": "all",
-      "arrowParentheses": "always"
+      "quoteStyle": "double"
     }
   },
   "assist": {
