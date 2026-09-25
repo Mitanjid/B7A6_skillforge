@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
-    "start": "node dist/src/server.js",
+    "build": "prisma generate && prisma migrate deploy",
+    "start": "tsx src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "format:check": "npx @biomejs/biome format ./src",
     "format:fix": "npx @biomejs/biome format --write ./src",
@@ -29,7 +29,6 @@
     "@types/node": "^26.4.1",
     "@types/pg": "^8.23.1",
     "prisma": "^7.10.0",
-    "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   },
   "dependencies": {
@@ -54,6 +53,7 @@
     "nodemailer": "^10.0.10",
     "pg": "^8.23.0",
     "redis": "^6.2.1",
+    "tsx": "^4.23.13",
     "zod": "^4.5.4"
   }
 }
