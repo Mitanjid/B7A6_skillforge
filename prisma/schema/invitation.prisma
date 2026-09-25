@@ -1,9 +1,12 @@
 model Invitation {
-  id           String @id @default(cuid())
+  id           String     @id @default(cuid())
   assessmentId String
   assessment   Assessment @relation(fields: [assessmentId], references: [id])
-  candidateId  String
-  candidate    User   @relation("CandidateInvitations", fields: [candidateId], references: [id])
+
+  
+  email       String
+  candidateId String?
+  candidate   User?   @relation("CandidateInvitations", fields: [candidateId], references: [id])
 
   token     String           @unique
   status    InvitationStatus @default(PENDING)
@@ -13,7 +16,8 @@ model Invitation {
 
   attempt Attempt?
 
-  @@unique([assessmentId, candidateId])
+  @@unique([assessmentId, email])
   @@index([candidateId, status])
+  @@index([email])
   @@map("invitations")
 }
