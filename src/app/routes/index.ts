@@ -6,21 +6,25 @@ import { ProblemRoutes } from "../module/problem/problem.route.js";
 import { UserRoutes } from "../module/user/user.route.js";
 import { InvitationRoutes } from "../module/invitation/invitation.route.js";
 import { AttemptRoutes } from "../module/attempt/attempt.route.js";
+import { EvaluationRoutes } from "../module/evaluation/evaluation.route.js";
+import { AdminRoutes } from "../module/admin/admin.route.js";
 
 const router = Router();
 
 const moduleRoutes = [
-  { path: "/auth", route: AuthRoutes },
-  { path: "/users", route: UserRoutes },
-  { path: "/problems", route: ProblemRoutes },
-  { path: "/assessments", route: AssessmentRoutes },
-  { path: "/payments", route: PaymentRoutes },
-  { path: "/invitations", route: InvitationRoutes },
-  { path: "/attempts", route: AttemptRoutes },
+	{ path: "/auth", route: AuthRoutes },
+	{ path: "/users", route: UserRoutes },
+	{ path: "/problems", route: ProblemRoutes },
+	{ path: "/assessments", route: AssessmentRoutes },
+	{ path: "/payments", route: PaymentRoutes },
+	{ path: "/invitations", route: InvitationRoutes },
+	{ path: "/attempts", route: AttemptRoutes },
+	{ path: "/submissions", route: EvaluationRoutes },
+	{ path: "/admin", route: AdminRoutes },
 ];
 
 for (const { path, route } of moduleRoutes) {
-  router.use(path, route);
+	router.use(path, route);
 }
 
 export default router;
