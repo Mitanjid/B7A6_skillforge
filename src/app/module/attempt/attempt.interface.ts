@@ -1,9 +1,9 @@
 export interface IStartAttemptPayload {
-  invitationId: string;
+	invitationId: string;
 }
 
 export interface ISubmitAnswerPayload {
-  problemId: string;
-  selectedOption?: string;
-  answerText?: string;
+	problemId: string;
+	selectedOption?: string;
+	answerText?: string;
 }
