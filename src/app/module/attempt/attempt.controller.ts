@@ -62,11 +62,22 @@ const getMyAttempts = catchAsync(async (req: Request, res: Response) => {
 		meta: result.meta,
 	});
 });
-
+const flagViolation = catchAsync(async (req: Request, res: Response) => {
+  const result = await AttemptServices.flagViolation(
+    req.params.id as string,
+    req.user!.userId,
+  );
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "Violation flagged",
+    data: result,
+  });
+});
 export const AttemptControllers = {
-	startAttempt,
-	submitAnswer,
-	submitAttempt,
-	getAttemptById,
-	getMyAttempts,
+  startAttempt,
+  submitAnswer,
+  submitAttempt,
+  getAttemptById,
+  getMyAttempts,
+  flagViolation,
 };

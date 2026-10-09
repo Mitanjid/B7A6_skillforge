@@ -38,5 +38,10 @@ router.get(
 	auth(Role.COMPANY),
 	EvaluationControllers.getAttemptSubmissions,
 );
+router.patch(
+  "/:id/flag-violation",
+  auth(Role.CANDIDATE),
+  AttemptControllers.flagViolation,
+);
 
 export const AttemptRoutes = router;

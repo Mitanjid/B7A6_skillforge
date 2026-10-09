@@ -382,6 +382,20 @@ const sweepExpiredAttempts = async () => {
 		console.log(`⏱️  Auto-submitted ${expired.length} expired attempt(s)`);
 	}
 };
+const flagViolation = async (attemptId: string, candidateId: string) => {
+  const attempt = await prisma.attempt.findUnique({ where: { id: attemptId } });
+  if (!attempt || attempt.candidateId !== candidateId) {
+    throw new AppError(httpStatus.FORBIDDEN, "Not your attempt");
+  }
+  if (attempt.status !== AttemptStatus.IN_PROGRESS) {
+    return attempt; // silently ignore after submit, nothing to flag
+  }
+
+  return prisma.attempt.update({
+    where: { id: attemptId },
+    data: { tabSwitchCount: { increment: 1 } },
+  });
+};
 
 export const AttemptServices = {
 	startAttempt,
@@ -390,4 +404,5 @@ export const AttemptServices = {
 	getAttemptById,
 	getMyAttempts,
 	sweepExpiredAttempts,
+	flagViolation
 };
